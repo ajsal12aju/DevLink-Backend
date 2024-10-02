@@ -4,7 +4,14 @@
 // creatrinng new web server
 // updated
 
- app.use((req,res)=>{
+// app.use will use will always take the http request other 
+
+
+app.get("/user" ,(req, res)=>{
+res.send({name: "ajsal"})
+})
+
+ app.use("/",(req,res)=>{
     res.send("heloo from the server")
  })
 

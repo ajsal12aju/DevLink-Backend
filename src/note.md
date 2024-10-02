@@ -16,3 +16,8 @@ install express create server listen port write requests and what is the deipend
   fix branch 
   and push the code of the remote repo
 play with extension and routes
+order of the routes is important when you use the app.use 
+
+intall postman and ->  workspace -> collection -> testing the get api
+
+test the get post patch and delete need to test
