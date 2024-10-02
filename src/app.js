@@ -1,7 +1,7 @@
  const express = require('express')
 
  const app  = express()
- // creatrinng new web server
+// creatrinng new web server
 // updated
 
  app.use((req,res)=>{
