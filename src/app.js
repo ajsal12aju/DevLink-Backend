@@ -11,6 +11,17 @@ app.get("/user" ,(req, res)=>{
 res.send({name: "ajsal"})
 })
 
+//  the requset params we can pass all the thing like 
+//  app.get("/user/:userId/:name/:password", (req, res) => {
+//    res.send("heloo from the server");
+//  });
+
+ // we can pass the needed params like this
+
+
+
+
+
  app.use("/",(req,res)=>{
     res.send("heloo from the server")
  })
