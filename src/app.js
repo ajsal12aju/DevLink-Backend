@@ -2,7 +2,7 @@
 
  const app  = express()
  // creatrinng new web server
-
+// updated
 
  app.use((req,res)=>{
     res.send("heloo from the server")
@@ -12,3 +12,5 @@
  app.listen(3000, ()=>{
     console.log("server is started")
  })
+
+
