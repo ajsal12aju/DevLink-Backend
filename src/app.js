@@ -17,8 +17,7 @@ res.send({name: "ajsal"})
 //  });
 
  // we can pass the needed params like this
-
-
+// updaeted
 
 
 
