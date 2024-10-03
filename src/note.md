@@ -21,3 +21,4 @@ order of the routes is important when you use the app.use
 intall postman and ->  workspace -> collection -> testing the get api
 
 test the get post patch and delete need to test
+expolore routes and regex 
