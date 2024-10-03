@@ -20,6 +20,11 @@ res.send({name: "ajsal"})
 // updaeted
 
 
+app.use("/", (req, res) => {
+  res.send("heloo from the server");
+});
+
+
 
  app.use("/",(req,res)=>{
     res.send("heloo from the server")
