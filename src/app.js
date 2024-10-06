@@ -7,9 +7,15 @@
 
 // app.use will use will always take the http request other 
 
+app.use("/", (err,req, res, next) => {
+if(err){
+   res.status(500).send("somthing went wrong")
+}
+});
+
 
 app.get("/user", userAuth ,(req, res)=>{
-res.send({name: "ajsal"})
+res.send({name: "ajsal"}) 
 })
 
 //  the requset params we can pass all the thing like 
