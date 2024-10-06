@@ -60,3 +60,5 @@ push data using postman
 
 add the express.json 
 make signup api dynamic 
+
+create delete api 

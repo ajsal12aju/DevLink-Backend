@@ -26,8 +26,53 @@ app.get("/user", async (req, res) => {
       res.send(userData);
     }
   } catch (error) {
-   console.log(error)
+    console.log(error);
     res.status(400).send("somthing went wrong with this");
+  }
+});
+
+app.get("/user/:id",async (req, res)=>{
+   const id = req.params.id
+   console.log(id)
+   try {
+      const userData = await User.findById(id);
+      res.status(200).send(userData)
+   } catch (error) {
+      res.status(400).send("sonthig went wrong")      
+   }
+})
+
+app.delete("/user/:id", async (req, res)=>{
+   const id = req.params.id;
+   try {
+      const user = await User.findOneAndDelete(id);
+      res.status(200).send("user is deleted succsuss")
+   } catch (error) {
+      res.status(400).send("somthing went wrong")
+   }
+})
+
+app.put("/user/:id", async (req,res)=>{
+   const id = req.params.id;
+   const updatedData = req.body
+   console.log(updatedData, "==updatedData==");
+   try {
+      const data = await User.findByIdAndUpdate(id,updatedData, { new: true })
+      console.log(data)
+      res.status(200).send(data);
+   } catch (error) {
+      res.status(400).send("somthing went wrong")
+   }
+
+})
+
+app.get("/feed", async (req, res) => {
+  try {
+    const users = await User.find({});
+
+    res.status(200).send(users);
+  } catch (error) {
+    res.status(400).send("somthing went wrong");
   }
 });
 
