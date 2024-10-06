@@ -52,13 +52,11 @@ app.delete("/user/:id", async (req, res)=>{
    }
 })
 
-app.put("/user/:id", async (req,res)=>{
+app.patch("/user/:id", async (req,res)=>{
    const id = req.params.id;
    const updatedData = req.body
-   console.log(updatedData, "==updatedData==");
    try {
       const data = await User.findByIdAndUpdate(id,updatedData, { new: true })
-      console.log(data)
       res.status(200).send(data);
    } catch (error) {
       res.status(400).send("somthing went wrong")
