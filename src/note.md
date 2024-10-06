@@ -30,8 +30,33 @@ create new clustur
 mogoDB atlas
 the clustor string take and create new connection in to the composs
 and create
+
+example of data saving
+..................
+app.post("/signup", async (req, res) => {
+  // creating new instance of user modal this will create new object for user using with User modal
+  const user = new User({
+    firstName: "rajith", 
+    lastName: "k",
+    age: 23,
+    email: "rajith@gmail.com",
+    password: "123",
+  });
+
+  try {
+     await user.save();
+     res.send("User added succsussfully");
+  } catch (error) {
+   res.status(500).send("somthing went wrog : "+ error.message)
+  }
+}); 
+..............
+
 install mogoose library 
 connect your application
 
 create a post api data add to the data base 
 push data using postman
+
+add the express.json 
+make signup api dynamic 
