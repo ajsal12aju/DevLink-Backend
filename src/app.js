@@ -1,4 +1,5 @@
  const express = require('express')
+ const {userAuth} = require('./utils')
 
  const app  = express()
 // creatrinng new web server
@@ -7,7 +8,7 @@
 // app.use will use will always take the http request other 
 
 
-app.get("/user" ,(req, res)=>{
+app.get("/user", userAuth ,(req, res)=>{
 res.send({name: "ajsal"})
 })
 
@@ -15,8 +16,6 @@ res.send({name: "ajsal"})
 //  app.get("/user/:userId/:name/:password", (req, res) => {
 //    res.send("heloo from the server");
 //  });
-
-console.log("ajsal");
 
 
  // we can pass the needed params like this
