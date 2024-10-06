@@ -1,5 +1,5 @@
  const express = require('express')
- const {userAuth} = require('./utils')
+const connectDB = require("./config/database")
 
  const app  = express()
 // creatrinng new web server
@@ -7,16 +7,7 @@
 
 // app.use will use will always take the http request other 
 
-app.use("/", (err,req, res, next) => {
-if(err){
-   res.status(500).send("somthing went wrong")
-}
-});
 
-
-app.get("/user", userAuth ,(req, res)=>{
-res.send({name: "ajsal"}) 
-})
 
 //  the requset params we can pass all the thing like 
 //  app.get("/user/:userId/:name/:password", (req, res) => {
@@ -28,19 +19,21 @@ res.send({name: "ajsal"})
 // updaeted
 
 
-app.use("/", (req, res) => {
-  res.send("heloo from the server");
-});
+ 
+ connectDB()
+   .then(() => {
+     console.log("DB connectted");
+ app.listen(3000, () => {
+   console.log("server is started");
+ });
 
+   })
+   .catch((err) => {
+     console.log("DB is not connected");
+   });
+ 
 
-
- app.use("/",(req,res)=>{
-    res.send("heloo from the server")
- })
 
 // listening the server for waiting incoming services
- app.listen(3000, ()=>{
-    console.log("server is started")
- })
 
 

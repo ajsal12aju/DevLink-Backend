@@ -25,3 +25,8 @@ expolore routes and regex
 handling multiple route handles and next() res.send  play with code
 
 what is middlewere how to handle the routes and how that work behind
+
+create new clustur 
+mogoDB atlas
+install mogoose library 
+connect your application
