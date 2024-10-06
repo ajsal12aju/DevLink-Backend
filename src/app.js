@@ -16,7 +16,8 @@ res.send({name: "ajsal"})
 //    res.send("heloo from the server");
 //  });
 
-console.log("ajsal")
+console.log("ajsal");
+
 
  // we can pass the needed params like this
 // updaeted
