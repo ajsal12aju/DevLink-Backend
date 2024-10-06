@@ -28,5 +28,10 @@ what is middlewere how to handle the routes and how that work behind
 
 create new clustur 
 mogoDB atlas
+the clustor string take and create new connection in to the composs
+and create
 install mogoose library 
 connect your application
+
+create a post api data add to the data base 
+push data using postman

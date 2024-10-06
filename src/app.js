@@ -16,13 +16,14 @@ const app = express();
 app.post("/signup", async (req, res) => {
   // creating new instance of user modal this will create new object for user using with User modal
   const user = new User({
-    fistName: "ajsal",
-    lastName: "aju",
+    firstName: "rajith", 
+    lastName: "k",
     age: 23,
-    email: "ajsal@gmail.com",
+    email: "rajith@gmail.com",
     password: "123",
   });
-  await user.save();
+  await user.save(); 
+  res.send("User added succsussfully")
 });
 
 connectDB()
