@@ -1,7 +1,9 @@
 const express = require("express");
 const connectDB = require("./config/database");
 const User = require("./models/user");
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcrypt");
+const cookie = require("cookie-parser");
+const jwt = require("jsonwebtoken");
 
 const app = express();
 // this will convet the req.body data in to the js obj
@@ -15,6 +17,31 @@ app.use(express.json());
 //  });
 // we can pass the needed params like this
 // updaeted
+
+app.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    console.log(password, "password");
+
+    const user = await User.findOne({ email: email });
+    console.log(password, "password");
+
+    if (!user) {
+      throw new Error("Email is not in the DB");
+    }
+    const isPasswordValied = await bcrypt.compare(password, user.password);
+    if (isPasswordValied) {
+      const token = await jwt.sign({ _id: user._id }, "key134");
+      res.cookie("token", token);
+      res.send("user login succsesss");
+    } else {
+      throw new Error("password is not currectted");
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).send("sonthig went wrong");
+  }
+});
 
 app.get("/user", async (req, res) => {
   const userEmail = req.body.email;
@@ -30,64 +57,39 @@ app.get("/user", async (req, res) => {
     console.log(error);
     res.status(400).send("somthing went wrong with this");
   }
-})
+});
 
-app.post("/login",async (req, res)=>{
+app.get("/user/:id", async (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+  try {
+    const userData = await User.findById(id);
+    res.status(200).send(userData);
+  } catch (error) {
+    res.status(400).send("sonthig went wrong");
+  }
+});
 
- try {
-   const { email, password } = req.body;
-   
-const user = await User.findOne({email:email}) ;
-if(!user){
-  throw new Error("Email is not in the DB")
-}
- const isPasswordValied = await bcrypt.compare(password, user.password);
- if(isPasswordValied){
-  res.send("user login succsesss")
- }else{
-  throw new Error("password is not currectted")
- }
- } catch (error) {
-  console.log(
-  error
-  )
-        res.status(400).send("sonthig went wrong");      
+app.delete("/user/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const user = await User.findOneAndDelete(id);
+    res.status(200).send("user is deleted succsuss");
+  } catch (error) {
+    res.status(400).send("somthing went wrong");
+  }
+});
 
- }
-})
-
-app.get("/user/:id",async (req, res)=>{
-   const id = req.params.id
-   console.log(id)
-   try {
-      const userData = await User.findById(id);
-      res.status(200).send(userData)
-   } catch (error) {
-      res.status(400).send("sonthig went wrong")      
-   }
-})
-
-app.delete("/user/:id", async (req, res)=>{
-   const id = req.params.id;
-   try {
-      const user = await User.findOneAndDelete(id);
-      res.status(200).send("user is deleted succsuss")
-   } catch (error) {
-      res.status(400).send("somthing went wrong")
-   }
-})
-
-app.patch("/user/:id", async (req,res)=>{
-   const id = req.params.id;
-   const updatedData = req.body
-   try {
-      const data = await User.findByIdAndUpdate(id,updatedData, { new: true })
-      res.status(200).send(data);
-   } catch (error) {
-      res.status(400).send("somthing went wrong")
-   }
-
-})
+app.patch("/user/:id", async (req, res) => {
+  const id = req.params.id;
+  const updatedData = req.body;
+  try {
+    const data = await User.findByIdAndUpdate(id, updatedData, { new: true });
+    res.status(200).send(data);
+  } catch (error) {
+    res.status(400).send("somthing went wrong");
+  }
+});
 
 app.get("/feed", async (req, res) => {
   try {
@@ -101,10 +103,25 @@ app.get("/feed", async (req, res) => {
 
 app.post("/signup", async (req, res) => {
   // creating new instance of user modal this will create new object for user using with User modal
-  const user = new User(req.body);
 
   try {
-    await user.save();
+    const user = req.body;
+
+    if (!user) {
+      throw new Error("data is not currected");
+    }
+    const password = user.password;
+    const hashPassword = await bcrypt(password, 10);
+
+    const newUser = new User({
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      age: user.age,
+      password: hashPassword,
+    });
+
+    await newUser.save();
     res.send("User added succsussfully");
   } catch (error) {
     res.status(500).send("somthing went wrog : " + error.message);
@@ -119,7 +136,7 @@ connectDB()
     });
   })
   .catch((err) => {
-    console.log(err, "===")
+    console.log(err, "===");
     console.log("DB is not connected");
   });
 
