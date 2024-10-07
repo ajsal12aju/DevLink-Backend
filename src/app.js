@@ -1,6 +1,7 @@
 const express = require("express");
 const connectDB = require("./config/database");
 const User = require("./models/user");
+const bcrypt = require("bcrypt")
 
 const app = express();
 // this will convet the req.body data in to the js obj
@@ -29,7 +30,31 @@ app.get("/user", async (req, res) => {
     console.log(error);
     res.status(400).send("somthing went wrong with this");
   }
-});
+})
+
+app.post("/login",async (req, res)=>{
+
+ try {
+   const { email, password } = req.body;
+   
+const user = await User.findOne({email:email}) ;
+if(!user){
+  throw new Error("Email is not in the DB")
+}
+ const isPasswordValied = await bcrypt.compare(password, user.password);
+ if(isPasswordValied){
+  res.send("user login succsesss")
+ }else{
+  throw new Error("password is not currectted")
+ }
+ } catch (error) {
+  console.log(
+  error
+  )
+        res.status(400).send("sonthig went wrong");      
+
+ }
+})
 
 app.get("/user/:id",async (req, res)=>{
    const id = req.params.id
@@ -94,6 +119,7 @@ connectDB()
     });
   })
   .catch((err) => {
+    console.log(err, "===")
     console.log("DB is not connected");
   });
 
