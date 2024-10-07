@@ -2,12 +2,13 @@ const express = require("express");
 const connectDB = require("./config/database");
 const User = require("./models/user");
 const bcrypt = require("bcrypt");
-const cookie = require("cookie-parser");
+const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
 
 const app = express();
 // this will convet the req.body data in to the js obj
 app.use(express.json());
+app.use(cookieParser());
 // creatrinng new web server
 // updated
 // app.use will use will always take the http request other
@@ -40,6 +41,53 @@ app.post("/login", async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(400).send("sonthig went wrong");
+  }
+});
+
+app.post("/signup", async (req, res) => {
+  // creating new instance of user modal this will create new object for user using with User modal
+
+  try {
+    const user = req.body;
+
+    if (!user) {
+      throw new Error("data is not currected");
+    }
+    const password = user.password;
+    const hashPassword = await bcrypt.hash(password, 10);
+
+    const newUser = new User({
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      age: user.age,
+      password: hashPassword,
+    });
+
+    await newUser.save();
+    res.send("User added succsussfully");
+  } catch (error) {
+    res.status(500).send("somthing went wrog : " + error.message);
+  }
+});
+
+app.get("/profile", async (req, res) => {
+
+  console.log(req.cookies)
+  try {
+    const cookies = req.cookies;
+    const { token } = cookies;
+
+    if (!token) {
+      throw new Error("invalied Token");
+    }
+
+    const decoded = await jwt.verify(token, "key134");
+    const { _id } = decoded;
+    const user = await User.findById(_id);
+    res.send(user);
+  } catch (error) {
+    res.status(400).send("somthing went wrong" + error.message);
   }
 });
 
@@ -98,33 +146,6 @@ app.get("/feed", async (req, res) => {
     res.status(200).send(users);
   } catch (error) {
     res.status(400).send("somthing went wrong");
-  }
-});
-
-app.post("/signup", async (req, res) => {
-  // creating new instance of user modal this will create new object for user using with User modal
-
-  try {
-    const user = req.body;
-
-    if (!user) {
-      throw new Error("data is not currected");
-    }
-    const password = user.password;
-    const hashPassword = await bcrypt(password, 10);
-
-    const newUser = new User({
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      age: user.age,
-      password: hashPassword,
-    });
-
-    await newUser.save();
-    res.send("User added succsussfully");
-  } catch (error) {
-    res.status(500).send("somthing went wrog : " + error.message);
   }
 });
 

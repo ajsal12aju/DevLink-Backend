@@ -68,3 +68,11 @@ expolore mongoose doc
 what are options in mongo findByidUpdate
 
 scheema options from the document  
+
+
+install cookieparser
+just send a dummy cookie to user
+create GET / Profile Api and check if you have the cookie back
+install JWT
+in login api after email and password validation create a JWT token and send it user inside the cookies
+read the cookies inside your profile api and find the logged in user
