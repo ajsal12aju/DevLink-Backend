@@ -4,6 +4,7 @@ const User = require("./models/user");
 const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
+const { userAuth } = require("./middlewares/auth");
 
 const app = express();
 // this will convet the req.body data in to the js obj
