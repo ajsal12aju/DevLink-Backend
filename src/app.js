@@ -72,20 +72,9 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-app.get("/profile", async (req, res) => {
-
-  console.log(req.cookies)
+app.get("/profile", userAuth, async (req, res) => {
   try {
-    const cookies = req.cookies;
-    const { token } = cookies;
-
-    if (!token) {
-      throw new Error("invalied Token");
-    }
-
-    const decoded = await jwt.verify(token, "key134");
-    const { _id } = decoded;
-    const user = await User.findById(_id);
+    const user = req.user;
     res.send(user);
   } catch (error) {
     res.status(400).send("somthing went wrong" + error.message);
