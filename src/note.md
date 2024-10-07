@@ -66,3 +66,5 @@ diff betweeen put and patch
 update api
 expolore mongoose doc
 what are options in mongo findByidUpdate
+
+scheema options from the document  
