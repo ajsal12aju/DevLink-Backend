@@ -33,7 +33,7 @@ app.post("/login", async (req, res) => {
     }
     const isPasswordValied = await bcrypt.compare(password, user.password);
     if (isPasswordValied) {
-      const token = await jwt.sign({ _id: user._id }, "key134");
+      const token = user.getJwt();
       res.cookie("token", token);
       res.send("user login succsesss");
     } else {
