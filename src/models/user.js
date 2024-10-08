@@ -30,14 +30,14 @@ const userScheema = new mongoose.Schema(
 
 userScheema.methods.getJwt = async function(){
   const user = this;
+  console.log(user, "==user==");
 
   const token = await jwt.sign({_id:user._id},"key134");
   return token
 }
 
 userScheema.methods.validatePassword = async function(userInPassword){
-  const user = this.user;
-  const passwordHash = user.password
+  const passwordHash = this.password;
 
   const isPasswordValid = await bcrypt.compare(userInPassword, passwordHash);
   return isPasswordValid

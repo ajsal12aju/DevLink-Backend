@@ -21,7 +21,8 @@ authRouter.post("/login", async (req, res) => {
     const isPasswordValied = await user.validatePassword(password);
 
     if (isPasswordValied) {
-      const token = user.getJwt();
+      const token = await user.getJwt();
+      console.log(token, "--token--");
       res.cookie("token", token);
       res.send("user login succsesss");
     } else {
