@@ -1,6 +1,8 @@
 const express = require("express");
-const authRouter = express.Router
-const User = require("./models/user");
+const authRouter = express.Router()
+const User = require("../models/user");
+const bcrypt = require("bcrypt");
+
 
 
 
@@ -32,7 +34,7 @@ authRouter.post("/login", async (req, res) => {
 });
 
 
-app.post("/signup", async (req, res) => {
+authRouter.post("/signup", async (req, res) => {
   // creating new instance of user modal this will create new object for user using with User modal
 
   try {

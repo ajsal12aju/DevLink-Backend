@@ -4,11 +4,17 @@ const User = require("./models/user");
 const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
 const { userAuth } = require("./middlewares/auth");
+const { authRouter } = require("./routes/auth");
+const { profileRouter } = require("./routes/profile");
 
 const app = express();
 // this will convet the req.body data in to the js obj
 app.use(express.json());
 app.use(cookieParser());
+
+app.use("/", authRouter)
+app.use("/", profileRouter);
+
 // creatrinng new web server
 // updated
 // app.use will use will always take the http request other
