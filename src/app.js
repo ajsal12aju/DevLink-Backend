@@ -3,7 +3,6 @@ const connectDB = require("./config/database");
 const User = require("./models/user");
 const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
-const jwt = require("jsonwebtoken");
 const { userAuth } = require("./middlewares/auth");
 
 const app = express();
@@ -31,7 +30,9 @@ app.post("/login", async (req, res) => {
     if (!user) {
       throw new Error("Email is not in the DB");
     }
-    const isPasswordValied = await bcrypt.compare(password, user.password);
+    // const isPasswordValied = await bcrypt.compare(password, user.password);
+     const isPasswordValied = await user.validatePassword(password)
+    
     if (isPasswordValied) {
       const token = user.getJwt();
       res.cookie("token", token);
