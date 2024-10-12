@@ -19,13 +19,13 @@ requestRouter.post(
       if (!allowedStatus.includes(status)) {
         return res
           .status(400)
-          .json({ message: "invalid status type" + status });
+          .json({ message: "invalid status  type" + status });
       }
 
       const toUserCheck = await User.findById(toUserId);
       if(!toUserCheck){
         return res.status(400).json({
-            message: "User is not found"
+            message: "User is not found!"
         })
       }
       
