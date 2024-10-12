@@ -1,11 +1,10 @@
 const express = require("express");
 const connectDB = require("./config/database");
 const User = require("./models/user");
-const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
-const { userAuth } = require("./middlewares/auth");
 const { authRouter } = require("./routes/auth");
 const { profileRouter } = require("./routes/profile");
+const requestRouter = require("./routes/requests");
 
 const app = express();
 // this will convet the req.body data in to the js obj
@@ -14,6 +13,8 @@ app.use(cookieParser());
 
 app.use("/", authRouter)
 app.use("/", profileRouter);
+app.use("/", requestRouter);
+
 
 // creatrinng new web server
 // updated
