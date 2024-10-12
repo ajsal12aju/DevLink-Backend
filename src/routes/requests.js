@@ -23,7 +23,7 @@ requestRouter.post(
       }
 
       const toUserCheck = await User.findById(toUserId);
-      if(toUserCheck){
+      if(!toUserCheck){
         return res.status(400).json({
             message: "User is not found"
         })
@@ -54,7 +54,7 @@ requestRouter.post(
         data,
       });
     } catch (error) {
-      res.status(400).send("Error", +error.message);
+      res.status(400).send("Error" +error.message);
     }
   }
 );
