@@ -1,6 +1,7 @@
 const express = require("express");
 const ConnectionRequest = require("../models/connectionRequest");
 const { userAuth } = require("../middlewares/auth");
+const User = require("../models/user");
 
 const requestRouter = express.Router();
 
@@ -19,6 +20,13 @@ requestRouter.post(
         return res
           .status(400)
           .json({ message: "invalid status type" + status });
+      }
+
+      const toUserCheck = await User.findById(toUserId);
+      if(toUserCheck){
+        return res.status(400).json({
+            message: "User is not found"
+        })
       }
       
       const existingConnectionRequest = await ConnectionRequest.findOne({
