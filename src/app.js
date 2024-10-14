@@ -5,6 +5,8 @@ const cookieParser = require("cookie-parser");
 const { authRouter } = require("./routes/auth");
 const { profileRouter } = require("./routes/profile");
 const requestRouter = require("./routes/requests");
+const userRouter = require("./routes/user");
+
 
 const app = express();
 // this will convet the req.body data in to the js obj
@@ -14,6 +16,8 @@ app.use(cookieParser());
 app.use("/", authRouter)
 app.use("/", profileRouter);
 app.use("/", requestRouter);
+app.use("/", userRouter);
+
 
 
 // creatrinng new web server
