@@ -31,14 +31,32 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
     })
       .populate("fromUserId", ["firstName", "lastName"])
       .populate("toUserId", ["firstName", "lastName"]);
-    const data = allaccepetedConnections.map((row)=> {
-        if(row.fromUserId._id.toString() === loggedUser._id.toString()){
-            return row.toUserId;
-        }
-        return row.fromUserId
+    const data = allaccepetedConnections.map((row) => {
+      if (row.fromUserId._id.toString() === loggedUser._id.toString()) {
+        return row.toUserId;
+      }
+      return row.fromUserId;
     });
-  
+
     res.json({ data: data });
   } catch (error) {}
+});
+
+userRouter.get("/feed", userAuth, async (req, res) => {
+  try {
+    // user should see the all the cards exept
+    // his own card
+    // ignord pepole
+    // his connecitons
+    // allready sent the connection requests
+
+    const loggedUser = req.user;
+
+    const allconnectionRequests = await CannotonnectionRequest.find({
+      $or: [{ fromUserId: loggedUser._id }, { toUserId: loggedUser._id }],
+    });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 });
 module.exports = userRouter;
