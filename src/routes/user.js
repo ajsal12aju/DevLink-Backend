@@ -56,7 +56,14 @@ userRouter.get("/feed", userAuth, async (req, res) => {
       $or: [{ fromUserId: loggedUser._id }, { toUserId: loggedUser._id }],
     }).select("fromUserId toUserId");
 
-    res.send(allconnectionRequests)
+    const hideUsers = new Set(); // this will work like when we adding the datas in to the array this will ignore the repeated items
+    allconnectionRequests.forEach((req) => {
+      hideUsers.add(req.fromUserId.toString());
+      hideUsers.add(req.toUserId.toString());
+    });
+
+    console.log(hideUsers)
+    res.send(allconnectionRequests);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
