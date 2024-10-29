@@ -1,6 +1,7 @@
 const express = require("express");
 const { userAuth } = require("../middlewares/auth");
 const CannotonnectionRequest = require("../models/connectionRequest");
+const User = require("../models/user");
 
 const userRouter = express.Router();
 
@@ -63,7 +64,14 @@ userRouter.get("/feed", userAuth, async (req, res) => {
     });
 
     console.log(hideUsers)
-    res.send(allconnectionRequests);
+
+    const users = await User.find({
+      $and: [
+        {_id : {$nin : Array.from(hideUsers)}},
+        {_id: {$ne: loggedUser._id}}
+      ]
+    })
+    res.send(users);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
