@@ -54,7 +54,9 @@ userRouter.get("/feed", userAuth, async (req, res) => {
 
     const allconnectionRequests = await CannotonnectionRequest.find({
       $or: [{ fromUserId: loggedUser._id }, { toUserId: loggedUser._id }],
-    });
+    }).select("fromUserId toUserId");
+
+    res.send(allconnectionRequests)
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
