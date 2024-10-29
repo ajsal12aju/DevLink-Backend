@@ -4,7 +4,7 @@ const CannotonnectionRequest = require("../models/connectionRequest");
 const User = require("../models/user");
 
 const userRouter = express.Router();
-
+const USER_SAVE_DATA = "firstName lastName photoUrl age gender about skills"
 userRouter.get("/user/requests/recieved", userAuth, async (req, res) => {
   try {
     const loggedUser = req.user;
@@ -67,10 +67,10 @@ userRouter.get("/feed", userAuth, async (req, res) => {
 
     const users = await User.find({
       $and: [
-        {_id : {$nin : Array.from(hideUsers)}},
-        {_id: {$ne: loggedUser._id}}
-      ]
-    })
+        { _id: { $nin: Array.from(hideUsers) } },
+        { _id: { $ne: loggedUser._id } },
+      ],
+    }).select(USER_SAVE_DATA);
     res.send(users);
   } catch (error) {
     res.status(400).json({ message: error.message });
