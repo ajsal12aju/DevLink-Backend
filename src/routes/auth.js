@@ -1,10 +1,7 @@
 const express = require("express");
-const authRouter = express.Router()
+const authRouter = express.Router();
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
-
-
-
 
 authRouter.post("/login", async (req, res) => {
   try {
@@ -24,7 +21,7 @@ authRouter.post("/login", async (req, res) => {
       const token = await user.getJwt();
       console.log(token, "--token--");
       res.cookie("token", token);
-      res.send("user login succsesss");
+      res.json({ message: "User added succsussfully", userData: user });
     } else {
       throw new Error("password is not currectted");
     }
@@ -33,7 +30,6 @@ authRouter.post("/login", async (req, res) => {
     res.status(400).send("sonthig went wrong");
   }
 });
-
 
 authRouter.post("/signup", async (req, res) => {
   // creating new instance of user modal this will create new object for user using with User modal
@@ -56,17 +52,17 @@ authRouter.post("/signup", async (req, res) => {
     });
 
     await newUser.save();
-    res.send("User added succsussfully");
+    res.json({ message: "User added succsussfully", userData: newUser });
   } catch (error) {
     res.status(500).send("somthing went wrog : " + error.message);
   }
 });
 
-authRouter.post("/logout", async (req, res)=> {
-res.cookie("token", null, {
-    expires: new Date(Date.now())
-})
-res.send("logout succsess")
-})
+authRouter.post("/logout", async (req, res) => {
+  res.cookie("token", null, {
+    expires: new Date(Date.now()),
+  });
+  res.send("logout succsess");
+});
 
-module.exports = {authRouter}
+module.exports = { authRouter };

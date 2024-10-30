@@ -54,7 +54,8 @@ userRouter.get("/feed", userAuth, async (req, res) => {
     const loggedUser = req.user;
 
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
+    let limit = parseInt(req.query.limit) || 10;
+    limit = limit > 50  ?50 :limit;
     const skip = (page - 1) * limit;
 
     const allconnectionRequests = await CannotonnectionRequest.find({
@@ -74,7 +75,7 @@ userRouter.get("/feed", userAuth, async (req, res) => {
         { _id: { $nin: Array.from(hideUsers) } },
         { _id: { $ne: loggedUser._id } },
       ],
-    }).select(USER_SAVE_DATA).skip().limit(limit);
+    }).select(USER_SAVE_DATA).skip(skip).limit(limit);
     res.send(users);
   } catch (error) {
     res.status(400).json({ message: error.message });
