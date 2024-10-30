@@ -11,7 +11,12 @@ const cors = require('cors')
 
 const app = express();
 
-app.use(cors())
+app.use(
+  cors({
+    origin: "http://localhost:5173/",
+    credentials: true
+  })
+);
 // this will convet the req.body data in to the js obj
 app.use(express.json());
 app.use(cookieParser());
