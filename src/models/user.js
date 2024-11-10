@@ -24,15 +24,21 @@ const userScheema = new mongoose.Schema(
     password: {
       type: "String",
     },
-      photoUrl: {
-      type: String,
-      default: "https://geographyandyou.com/images/user-profile.png",
-      validate(value) {
-        if (!validator.isURL(value)) {
-          throw new Error("Invalid Photo URL: " + value);
-        }
-      },
+    photoUrl: {
+      type: "String",
+      // default: "https://geographyandyou.com/images/user-profile.png",
+      // validate(value) {
+      //   if (
+      //     !validator.isURL(value, {
+      //       protocols: ["http", "https"],
+      //       require_protocol: true,
+      //     })
+      //   ) {
+      //     throw new Error("Invalid Photo URL: " + value);
+      //   }
+      // },
     },
+
     about: {
       type: String,
       default: "This is a default about of the user!",
@@ -59,6 +65,6 @@ userScheema.methods.validatePassword = async function(userInPassword){
   const isPasswordValid = await bcrypt.compare(userInPassword, passwordHash);
   return isPasswordValid
 }
-  
+
 const User = mongoose.model("User", userScheema);
 module.exports = User;
