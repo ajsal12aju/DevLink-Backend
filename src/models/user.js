@@ -26,17 +26,17 @@ const userScheema = new mongoose.Schema(
     },
     photoUrl: {
       type: "String",
-      // default: "https://geographyandyou.com/images/user-profile.png",
-      // validate(value) {
-      //   if (
-      //     !validator.isURL(value, {
-      //       protocols: ["http", "https"],
-      //       require_protocol: true,
-      //     })
-      //   ) {
-      //     throw new Error("Invalid Photo URL: " + value);
-      //   }
-      // },
+      default: "https://geographyandyou.com/images/user-profile.png",
+      validate(value) {
+        if (
+          !validator.isURL(value, {
+            protocols: ["http", "https"],
+            require_protocol: true,
+          })
+        ) {
+          throw new Error("Invalid Photo URL: " + value);
+        }
+      },
     },
 
     about: {
