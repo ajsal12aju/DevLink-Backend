@@ -114,4 +114,3 @@ connectDB()
     console.log("DB is not connected");
   });
 
-// listening the server for waiting incoming services

@@ -12,7 +12,7 @@ userRouter.get("/user/requests/recieved", userAuth, async (req, res) => {
     const datas = await CannotonnectionRequest.find({
       toUserId: loggedUser._id,
       status: "interested",
-    }).populate("fromUserId", ["firstName", "lastName"]);
+    }).populate("fromUserId", ["firstName", "lastName", "photoUrl"]);
 
     res.status(200).json({ data: datas, message: "Data Fetched successfully" });
   } catch (error) {
@@ -30,8 +30,8 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
         { toUserId: loggedUser._id, status: "accepted" },
       ],
     })
-      .populate("fromUserId", ["firstName", "lastName"])
-      .populate("toUserId", ["firstName", "lastName"]);
+      .populate("fromUserId", ["firstName", "lastName", "photoUrl"])
+      .populate("toUserId", ["firstName", "lastName", "photoUrl"]);
     const data = allaccepetedConnections.map((row) => {
       if (row.fromUserId._id.toString() === loggedUser._id.toString()) {
         return row.toUserId;
@@ -62,7 +62,7 @@ userRouter.get("/feed", userAuth, async (req, res) => {
       $or: [{ fromUserId: loggedUser._id }, { toUserId: loggedUser._id }],
     }).select("fromUserId toUserId");
 
-    const hideUsers = new Set(); // this will work like when we adding the datas in to the array this will ignore the repeated items
+    const hideUsers = new Set();
     allconnectionRequests.forEach((req) => {
       hideUsers.add(req.fromUserId.toString());
       hideUsers.add(req.toUserId.toString());
