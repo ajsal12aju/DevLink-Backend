@@ -105,7 +105,7 @@ app.get("/feed", async (req, res) => {
 connectDB()
   .then(() => {
     console.log("DB connectted");
-    app.listen(3000, () => {
+    app.listen(3003, () => {
       console.log("server is started");
     });
   })
