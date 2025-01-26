@@ -14,7 +14,6 @@ authRouter.post("/login", async (req, res) => {
     if (!user) {
       throw new Error("Email is not in the DB");
     }
-    // const isPasswordValied = await bcrypt.compare(password, user.password);
     const isPasswordValied = await user.validatePassword(password);
 
     if (isPasswordValied) {
@@ -32,7 +31,6 @@ authRouter.post("/login", async (req, res) => {
 });
 
 authRouter.post("/signup", async (req, res) => {
-  // creating new instance of user modal this will create new object for user using with User modal
 
   try {
     const user = req.body;
@@ -53,7 +51,6 @@ authRouter.post("/signup", async (req, res) => {
 
      const savedUser = await newUser.save();
      const token = await savedUser.getJwt();
-     console.log(token, "--token--");
      res.cookie("token", token);
     res.json({ message: "User added succsussfully", userData: savedUser });
   } catch (error) {

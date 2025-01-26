@@ -53,7 +53,6 @@ const userScheema = new mongoose.Schema(
 
 userScheema.methods.getJwt = async function(){
   const user = this;
-  console.log(user, "==user==");
 
   const token = await jwt.sign({_id:user._id},"key134");
   return token
